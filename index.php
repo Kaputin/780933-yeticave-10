@@ -95,15 +95,11 @@ $lots = [
         <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
         <ul class="promo__list">
             <!--заполните этот список из массива категорий-->
-            <?php
-              $index = 0;
-              $num = count($categories);
-              while ($index < $num): ?>
-                <li class="promo__item promo__item--boards">
-                    <a class="promo__link" href="#"><?=$categories[$index];?></a>
-                </li>
-              <?php $index++; ?>
-            <?php endwhile; ?>
+            <?php foreach ($categories as $val): ?>
+              <li class="promo__item promo__item--boards">
+                  <a class="promo__link" href="#"><?=$val; ?></a>
+              </li>
+          <?php endforeach; ?>
         </ul>
     </section>
     <section class="lots">
@@ -140,16 +136,12 @@ $lots = [
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-          <?php
-            $index = 0;
-            $num = count($categories);
-            while ($index < $num): ?>
-              <li class="nav__item">
-                  <a href="#"><?=$categories[$index];?></a>
-              </li>
-            <?php $index++; ?>
-          <?php endwhile; ?>
             <!--заполните этот список из массива категорий-->
+            <?php foreach ($categories as $val): ?>
+            <li class="nav__item">
+                <a href="#"><?=$val; ?></a>
+            </li>
+          <?php endforeach; ?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">
