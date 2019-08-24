@@ -108,7 +108,7 @@ $lots = [
         </div>
         <ul class="lots__list">
             <!--заполните этот список из массива с товарами-->
-            <?php foreach ($lots as $key => $val): ?>
+            <?php foreach ($lots as $val): ?>
             <li class="lots__item lot">
                 <div class="lot__image">
                     <img src="<?=$val['picture']; ?>" width="350" height="260" alt="">
