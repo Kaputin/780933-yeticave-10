@@ -1,4 +1,5 @@
 <?php
+include_once('helpers.php');
 $is_auth = rand(0, 1);
 
 $user_name = 'Евгений'; // укажите здесь ваше имя
@@ -52,33 +53,11 @@ function format_price(float $price): string {
   return  $output;
 }
 
-function esc($str) {
-	$text = htmlspecialchars($str);
-
-	return $text;
-}
-
-function include_template($name, $data) {
-  $name = 'templates/' . $name;
-  $result = '';
-
-  if (!file_exists($name)) {
-      return $result;
-  }
-
-  ob_start();
-  extract($data);
-  require $name;
-
-  $result = ob_get_clean();
-
-  return $result;
-}
-
 $page_content = include_template('main.php', [
   'lots' => $lots,
   'categories' => $categories
 ]);
+
 $layout_content = include_template('layout.php', [
   'is_auth' => $is_auth,
   'user_name' => $user_name,
