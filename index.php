@@ -12,49 +12,48 @@ $lots = [
     'categories' => 'Доски и лыжи',
     'price' => '10999',
     'picture' => 'img/lot-1.jpg',
-    'dtclose' => '2019-08-28'
+    'date_close' => '2019-08-28'
    ],
   [
     'name' => 'DC Ply Mens 2016/2017 Snowboard',
     'categories' => 'Доски и лыжи',
     'price' => '159999',
     'picture' => 'img/lot-2.jpg',
-    'dtclose' => '2019-08-29'
+    'date_close' => '2019-08-29'
   ],
   [
     'name' => 'Крепления Union Contact Pro 2015 года размер L/XL',
     'categories' => 'Крепления',
     'price' => '8000',
     'picture' => 'img/lot-3.jpg',
-    'dtclose' => '2019-08-31'
+    'date_close' => '2019-08-31'
   ],
   [
     'name' => 'Ботинки для сноуборда DC Mutiny Charocal',
     'categories' => 'Ботинки',
     'price' => '10999',
     'picture' => 'img/lot-4.jpg',
-    'dtclose' => '2019-09-01'
+    'date_close' => '2019-09-01'
   ],
   [
     'name' => 'Куртка для сноуборда DC Mutiny Charocal',
     'categories' => 'Одежда',
     'price' => '7500',
     'picture' => 'img/lot-5.jpg',
-    'dtclose' => '2019-09-02'
+    'date_close' => '2019-09-02'
   ],
   [
     'name' => 'Маска Oakley Canopy',
     'categories' => 'Разное',
     'price' => '5400',
     'picture' => 'img/lot-6.jpg',
-    'dtclose' => '2019-09-03'
+    'date_close' => '2019-09-03'
   ]
 ];
 
-function format_date ( $dtclose) {
-  $end_ts = strtotime($dtclose);
+function format_date (string $date_close): array {
   $ts = time();
-  $secs_to_close = $end_ts - $ts;
+  $secs_to_close = strtotime($date_close) - $ts;
 
   $hours = floor($secs_to_close / 3600);
   $hours = str_pad($hours, 2, "0", STR_PAD_LEFT);

@@ -29,8 +29,8 @@
                             <span class="lot__amount">Стартовая цена</span>
                             <span class="lot__cost"><?=format_price($val['price']); ?></span>
                         </div>
-                        <?php $res=format_date($val['dtclose']); ?>
-                        <div class="lot__timer timer <?php if ($res[0] == "00"): ?>timer--finishing<?php endif ?>">
+                        <?php $res=format_date($val['date_close']); ?>
+                        <div class="lot__timer timer <?php if ($res[0] === "00"): ?>timer--finishing<?php endif ?>">
                             <?=$res[0]; ?>:<?=$res[1]; ?>
                         </div>
                     </div>
