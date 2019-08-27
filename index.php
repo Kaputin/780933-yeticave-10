@@ -52,9 +52,7 @@ $lots = [
 ];
 
 function format_date (string $date_close): array {
-  $ts = time();
-  $secs_to_close = strtotime($date_close) - $ts;
-
+  $secs_to_close = strtotime($date_close) - time();
   $hours = floor($secs_to_close / 3600);
   $hours = str_pad($hours, 2, "0", STR_PAD_LEFT);
   $minutes = floor(($secs_to_close % 3600) / 60);
