@@ -4,7 +4,7 @@ DEFAULT COLLATE utf8_general_ci;
 
 USE YetiCave;
 
-CREATE TABLE categorie (
+CREATE TABLE category (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(64) NOT NULL,
   symbolic_code VARCHAR(128) NOT NULL UNIQUE
@@ -20,8 +20,9 @@ CREATE TABLE lot (
   date_close TIMESTAMP NOT NULL,
   bet_step INT NOT NULL,
   user_id_add INT,
-  user_id_win INT,
-  categories_id INT
+  category_id INT,
+  FOREIGN KEY (user_id_add) REFERENCES user (id),
+  FOREIGN KEY (category_id) REFERENCES category (id)
 );
 
 CREATE TABLE bet (
@@ -29,7 +30,9 @@ CREATE TABLE bet (
   bet_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   bet_amount DECIMAL NOT NULL,
   user_id INT,
-  lot_id INT
+  lot_id INT,
+  FOREIGN KEY (user_id) REFERENCES user (id),
+  FOREIGN KEY (lot_id) REFERENCES lot (id)
 );
 
 CREATE TABLE user (
@@ -39,6 +42,4 @@ CREATE TABLE user (
   name VARCHAR(128) NOT NULL,
   password VARCHAR(128) NOT NULL,
   contact TEXT NOT NULL,
-  lot_id INT,
-  bet_id INT
 );
