@@ -1,0 +1,47 @@
+CREATE DATABASE yeticave
+DEFAULT CHARACTER SET utf8mb4
+DEFAULT COLLATE utf8mb4_general_ci;
+
+USE yeticave;
+
+CREATE TABLE category (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(64) NOT NULL,
+  symbolic_code VARCHAR(128) NOT NULL UNIQUE
+);
+
+CREATE TABLE user (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  date_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  email VARCHAR(128) NOT NULL UNIQUE,
+  name VARCHAR(128) NOT NULL,
+  password VARCHAR(128) NOT NULL,
+  contact TEXT NOT NULL
+);
+
+CREATE TABLE lot (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  date_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  name VARCHAR(64) NOT NULL,
+  description TEXT,
+  image_url VARCHAR(128) NOT NULL,
+  start_price DECIMAL NOT NULL,
+  date_close TIMESTAMP NOT NULL,
+  bet_step INT NOT NULL,
+  author_id INT NOT NULL,
+  category_id INT NOT NULL,
+  winner_id INT,
+  FOREIGN KEY (author_id) REFERENCES user (id),
+  FOREIGN KEY (category_id) REFERENCES category (id),
+  FOREIGN KEY (winner_id) REFERENCES user (id)
+);
+
+CREATE TABLE bet (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  bet_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  bet_amount DECIMAL NOT NULL,
+  user_id INT NOT NULL,
+  lot_id INT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES user (id),
+  FOREIGN KEY (lot_id) REFERENCES lot (id)
+);
