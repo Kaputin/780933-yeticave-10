@@ -7,7 +7,8 @@ USE yeticave;
 CREATE TABLE category (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(64) NOT NULL,
-  symbolic_code VARCHAR(128) NOT NULL UNIQUE
+  symbolic_code VARCHAR(128) NOT NULL UNIQUE,
+  FULLTEXT KEY (symbolic_code)
 );
 
 CREATE TABLE user (
@@ -16,7 +17,8 @@ CREATE TABLE user (
   email VARCHAR(128) NOT NULL UNIQUE,
   name VARCHAR(128) NOT NULL,
   password VARCHAR(128) NOT NULL,
-  contact TEXT NOT NULL
+  contact TEXT NOT NULL,
+  FULLTEXT KEY (email)
 );
 
 CREATE TABLE lot (
@@ -33,7 +35,8 @@ CREATE TABLE lot (
   winner_id INT,
   FOREIGN KEY (author_id) REFERENCES user (id),
   FOREIGN KEY (category_id) REFERENCES category (id),
-  FOREIGN KEY (winner_id) REFERENCES user (id)
+  FOREIGN KEY (winner_id) REFERENCES user (id),
+  FULLTEXT KEY (name)
 );
 
 CREATE TABLE bet (
