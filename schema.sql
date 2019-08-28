@@ -18,10 +18,10 @@ CREATE TABLE lot (
   image_url VARCHAR(128) NOT NULL,
   start_price DECIMAL NOT NULL,
   date_close TIMESTAMP NOT NULL,
-  bet_step DECIMAL NOT NULL,
+  bet_step INT NOT NULL,
   author_id INT NOT NULL,
   category_id INT NOT NULL,
-  winner_id INT NULL,
+  winner_id INT,
   FOREIGN KEY (author_id) REFERENCES user (id),
   FOREIGN KEY (category_id) REFERENCES category (id),
   FOREIGN KEY (winner_id) REFERENCES user (id)
