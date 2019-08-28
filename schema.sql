@@ -6,33 +6,39 @@ USE YetiCave;
 
 CREATE TABLE categories (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name CHAR(64) NOT NULL UNIQUE,
-  symbolic_code CHAR(128) NOT NULL
+  name VARCHAR(64) NOT NULL,
+  symbolic_code VARCHAR(128) NOT NULL UNIQUE
 );
 
 CREATE TABLE lots (
   id INT AUTO_INCREMENT PRIMARY KEY,
   date_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  name CHAR(64) NOT NULL UNIQUE,
-  description CHAR(128),
-  lot_image CHAR(64) NOT NULL,
-  start_price INT NOT NULL,
+  name VARCHAR(64) NOT NULL,
+  description TEXT,
+  image_url VARCHAR(64) NOT NULL,
+  start_price DECIMAL NOT NULL,
   date_close TIMESTAMP NOT NULL,
-  bet_step INT NOT NULL
+  bet_step INT NOT NULL,
+  user_id_add INT,
+  user_id_win INT,
+  categories_id INT
 );
 
 CREATE TABLE bets (
   id INT AUTO_INCREMENT PRIMARY KEY,
   bet_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  bet_amount INT NOT NULL
+  bet_amount DECIMAL NOT NULL,
+  user_id INT,
+  lot_id INT
 );
 
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  dt_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  email CHAR(128) NOT NULL UNIQUE,
-  name CHAR(64) NOT NULL,
-  password CHAR(64) NOT NULL,
-  contact CHAR(128) NOT NULL
+  date_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  email VARCHAR(128) NOT NULL UNIQUE,
+  name VARCHAR(128) NOT NULL,
+  password VARCHAR(128) NOT NULL,
+  contact TEXT NOT NULL,
+  lot_id INT,
+  bet_id INT
 );
-lotsusersusers
