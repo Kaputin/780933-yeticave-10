@@ -34,8 +34,7 @@ CREATE TABLE lot (
   FOREIGN KEY (author_id) REFERENCES user (id),
   FOREIGN KEY (category_id) REFERENCES category (id),
   FOREIGN KEY (winner_id) REFERENCES user (id),
-  FULLTEXT (name),
-  FULLTEXT (description)
+  FULLTEXT (name,description)
 );
 
 CREATE TABLE bet (
