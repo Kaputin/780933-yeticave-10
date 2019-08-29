@@ -8,6 +8,7 @@ CREATE TABLE category (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(64) NOT NULL,
   symbolic_code VARCHAR(128) NOT NULL UNIQUE,
+  FULLTEXT KEY (name),
   FULLTEXT KEY (symbolic_code)
 );
 
@@ -18,7 +19,8 @@ CREATE TABLE user (
   name VARCHAR(128) NOT NULL,
   password VARCHAR(128) NOT NULL,
   contact TEXT NOT NULL,
-  FULLTEXT KEY (email)
+  FULLTEXT KEY (email),
+  FULLTEXT KEY (name)
 );
 
 CREATE TABLE lot (
