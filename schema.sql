@@ -23,7 +23,7 @@ CREATE TABLE lot (
   id INT AUTO_INCREMENT PRIMARY KEY,
   date_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   name VARCHAR(64) NOT NULL,
-  description TEXT,
+  description TEXT NOT NULL,
   image_url VARCHAR(128) NOT NULL,
   start_price DECIMAL NOT NULL,
   date_close TIMESTAMP NOT NULL,
@@ -33,7 +33,8 @@ CREATE TABLE lot (
   winner_id INT,
   FOREIGN KEY (author_id) REFERENCES user (id),
   FOREIGN KEY (category_id) REFERENCES category (id),
-  FOREIGN KEY (winner_id) REFERENCES user (id)
+  FOREIGN KEY (winner_id) REFERENCES user (id),
+  FULLTEXT (name,description)
 );
 
 CREATE TABLE bet (
