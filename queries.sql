@@ -22,7 +22,10 @@ VALUES ('2019-08-25 18:00:00','2014 Rossignol District Snowboard', 'snowboard ro
 INSERT INTO bet (bet_date, bet_amount, user_id, lot_id)
 VALUES (NOW(), 11999, 2, 1),
        (NOW(), 12999, 3, 1),
-       (NOW(), 13999, 2, 1);
+       (NOW(), 13999, 2, 1),
+       (NOW(), 99999, 2, 2),
+       (NOW(), 29999, 2, 2),
+       (NOW(), 49999, 2, 3);
 
 /* получить все категории */
 
@@ -34,12 +37,12 @@ SELECT name, symbolic_code FROM category;
 SELECT l.name, start_price, image_url, c.name as category_name, bet_amount FROM lot l
 JOIN category c ON l.category_id = c.id
 LEFT JOIN bet b ON lot_id = l.id
-WHERE bet_amount = (SELECT MAX(bet_amount) FROM bet) OR bet_amount IS NULL
+WHERE bet_amount IN (SELECT MAX(bet_amount) from bet GROUP BY lot_id) OR bet_amount IS NULL
 ORDER BY l.date_add DESC;
 
 /* показать лот по его id. Получите также название категории, к которой принадлежит лот; */
 
-SELECT l.id, date_add, l.name, description, image_url, start_price, date_close, bet_step, author_id, c.name FROM lot l
+SELECT l.id, date_add, l.name, description, image_url, start_price, date_close, bet_step, author_id, c.name as category_name FROM lot l
 JOIN category c ON l.category_id = c.id
 WHERE l.id = 1;
 
@@ -49,7 +52,5 @@ UPDATE lot SET `name` = 'Новое название'
 WHERE id = 1;
 
 /* получить список ставок для лота по его идентификатору с сортировкой по дате.*/
-SELECT l.id, bet_date, bet_amount, user_id FROM lot l
-JOIN bet ON l.id = lot_id
-WHERE l.id = 1
+SELECT * FROM bet WHERE lot_id = 1
 ORDER BY bet_date DESC;
