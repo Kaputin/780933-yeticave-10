@@ -4,8 +4,8 @@
         <ul class="promo__list">
             <!--заполните этот список из массива категорий-->
             <?php foreach ($categories as $val): ?>
-              <li class="promo__item promo__item--boards">
-                  <a class="promo__link" href="#"><?=htmlspecialchars($val); ?></a>
+              <li class="promo__item promo__item--<?=$val['symbolic_code']; ?>">
+                  <a class="promo__link" href="#"><?=htmlspecialchars($val['name']); ?></a>
               </li>
           <?php endforeach; ?>
         </ul>
@@ -19,15 +19,15 @@
             <?php foreach ($lots as $val): ?>
             <li class="lots__item lot">
                 <div class="lot__image">
-                    <img src="<?=$val['picture']; ?>" width="350" height="260" alt="">
+                    <img src="<?=$val['image_url']; ?>" width="350" height="260" alt="">
                 </div>
                 <div class="lot__info">
-                    <span class="lot__category"><?=htmlspecialchars($val['categories']); ?></span>
+                    <span class="lot__category"><?=htmlspecialchars($val['category']); ?></span>
                     <h3 class="lot__title"><a class="text-link" href="pages/lot.html"><?=htmlspecialchars($val['name']); ?></a></h3>
                     <div class="lot__state">
                         <div class="lot__rate">
                             <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost"><?=format_price($val['price']); ?></span>
+                            <span class="lot__cost"><?=format_price($val['start_price']); ?></span>
                         </div>
                         <?php $res=format_date($val['date_close']); ?>
                         <div class="lot__timer timer <?php if ($res[0] === "00"): ?>timer--finishing<?php endif ?>">

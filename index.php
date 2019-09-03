@@ -2,54 +2,69 @@
 date_default_timezone_set("Europe/Moscow");
 include_once('helpers.php');
 $is_auth = rand(0, 1);
-
 $user_name = 'Евгений'; // укажите здесь ваше имя
+$content = '';
+$categories = [];
+$lots = [];
 
-$categories = ["Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
-$lots = [
-  [
-    'name' => '2014 Rossignol District Snowboard',
-    'categories' => 'Доски и лыжи',
-    'price' => '10999',
-    'picture' => 'img/lot-1.jpg',
-    'date_close' => '2019-08-28'
-   ],
-  [
-    'name' => 'DC Ply Mens 2016/2017 Snowboard',
-    'categories' => 'Доски и лыжи',
-    'price' => '159999',
-    'picture' => 'img/lot-2.jpg',
-    'date_close' => '2019-08-29'
-  ],
-  [
-    'name' => 'Крепления Union Contact Pro 2015 года размер L/XL',
-    'categories' => 'Крепления',
-    'price' => '8000',
-    'picture' => 'img/lot-3.jpg',
-    'date_close' => '2019-08-31'
-  ],
-  [
-    'name' => 'Ботинки для сноуборда DC Mutiny Charocal',
-    'categories' => 'Ботинки',
-    'price' => '10999',
-    'picture' => 'img/lot-4.jpg',
-    'date_close' => '2019-09-01'
-  ],
-  [
-    'name' => 'Куртка для сноуборда DC Mutiny Charocal',
-    'categories' => 'Одежда',
-    'price' => '7500',
-    'picture' => 'img/lot-5.jpg',
-    'date_close' => '2019-09-02'
-  ],
-  [
-    'name' => 'Маска Oakley Canopy',
-    'categories' => 'Разное',
-    'price' => '5400',
-    'picture' => 'img/lot-6.jpg',
-    'date_close' => '2019-09-03'
-  ]
-];
+$link = mysqli_connect("localhost", "root", "", "yeticave");
+if (!$link) {
+    $error = mysqli_connect_error();
+    $content = include_template('error.php', ['error' => $error]);
+}
+else {
+    mysqli_set_charset($link, "utf8");
+}
+
+if (!$link) {
+    $error = mysqli_connect_error();
+    $content = include_template('error.php', ['error' => $error]);
+}
+else {
+  // Запрос на получение списка категорий
+  $sql = 'SELECT `name`, symbolic_code FROM category';
+  $result = mysqli_query($link, $sql);
+  // запрос выполнен успешно
+    if ($result) {
+      // получаем все категории в виде двумерного массива
+      $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+    else {
+      // получить текст последней ошибки
+      $error = mysqli_error($link);
+      $content = include_template('error.php', ['error' => $error]);
+    }
+  // Запрос на получение списка ЛОТОВ
+  $sql = 'SELECT l.name, start_price, date_close,
+  ifnull((SELECT bet_amount FROM bet WHERE lot_id = l.id ORDER BY bet_date DESC LIMIT 1), l.start_price) as last_price,
+  image_url, c.name as category_name
+  FROM lot l
+  JOIN category c on l.category_id = c.id
+  WHERE date_close > NOW()
+  ORDER BY l.date_add desc';
+  $result = mysqli_query($link, $sql);
+    // запрос выполнен успешно
+    if ($result) {
+          // получаем все новые лоты в виде двумерного массива
+          $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+    else {
+          $content = include_template('error.php', ['error' => mysqli_error($link)]);
+    }
+}
+
+$content = include_template('main.php', [
+  'lots' => $lots,
+  'categories' => $categories
+]);
+
+$layout_content = include_template('layout.php', [
+  'is_auth' => $is_auth,
+  'user_name' => $user_name,
+  'content' => $content,
+  'categories' => $categories,
+  'title' => 'YetiCave - Главная страница'
+]);
 
 function format_date (string $date_close): array {
   $secs_to_close = strtotime($date_close) - time();
@@ -69,18 +84,5 @@ function format_price(float $price): string {
   $output .= ' ₽';
   return  $output;
 }
-
-$page_content = include_template('main.php', [
-  'lots' => $lots,
-  'categories' => $categories
-]);
-
-$layout_content = include_template('layout.php', [
-  'is_auth' => $is_auth,
-  'user_name' => $user_name,
-  'content' => $page_content,
-  'categories' => $categories,
-  'title' => 'YetiCave - Главная страница'
-]);
 
 print($layout_content);
