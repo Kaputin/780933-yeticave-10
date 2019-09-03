@@ -53,7 +53,7 @@
     <nav class="nav">
         <ul class="nav__list container">
             <!--заполните этот список из массива категорий-->
-            <?php foreach ($cateories as $val): ?>
+            <?php foreach ($categories as $val): ?>
             <li class="nav__item">
                 <a href="#"><?=$val['name']; ?></a>
             </li>

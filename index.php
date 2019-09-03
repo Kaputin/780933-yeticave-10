@@ -3,13 +3,18 @@ date_default_timezone_set("Europe/Moscow");
 include_once('helpers.php');
 $is_auth = rand(0, 1);
 $user_name = 'Евгений'; // укажите здесь ваше имя
+$content = '';
+$categories = [];
+$lots = [];
 
 $link = mysqli_connect("localhost", "root", "", "yeticave");
-mysqli_set_charset($link, "utf8");
-
-$content = '';
-$cateories = [];
-$lots = [];
+if (!$link) {
+    $error = mysqli_connect_error();
+    $content = include_template('error.php', ['error' => $error]);
+}
+  else {
+    mysqli_set_charset($link, "utf8");
+}
 
 if (!$link) {
     $error = mysqli_connect_error();
@@ -22,7 +27,7 @@ else {
   // запрос выполнен успешно
     if ($result) {
       // получаем все категории в виде двумерного массива
-      $cateories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+      $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
     else {
       // получить текст последней ошибки
@@ -50,14 +55,14 @@ else {
 
 $content = include_template('main.php', [
   'lots' => $lots,
-  'cateories' => $cateories
+  'categories' => $categories
 ]);
 
 $layout_content = include_template('layout.php', [
   'is_auth' => $is_auth,
   'user_name' => $user_name,
   'content' => $content,
-  'cateories' => $cateories,
+  'categories' => $categories,
   'title' => 'YetiCave - Главная страница'
 ]);
 
