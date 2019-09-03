@@ -7,6 +7,10 @@ $user_name = 'Евгений'; // укажите здесь ваше имя
 $link = mysqli_connect("localhost", "root", "", "yeticave");
 mysqli_set_charset($link, "utf8");
 
+$content = '';
+$cateories = [];
+$lots = [];
+
 if (!$link) {
     $error = mysqli_connect_error();
     $content = include_template('error.php', ['error' => $error]);
@@ -18,7 +22,7 @@ else {
   // запрос выполнен успешно
     if ($result) {
       // получаем все категории в виде двумерного массива
-      $category = mysqli_fetch_all($result, MYSQLI_ASSOC);
+      $cateories = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
     else {
       // получить текст последней ошибки
@@ -33,11 +37,11 @@ else {
   JOIN category c on l.category_id = c.id
   WHERE date_close > NOW()
   ORDER BY l.date_add desc';
-  $res = mysqli_query($link, $sql);
+  $result = mysqli_query($link, $sql);
     // запрос выполнен успешно
-    if ($res) {
+    if ($result) {
           // получаем все новые лоты в виде двумерного массива
-          $lot = mysqli_fetch_all($res, MYSQLI_ASSOC);
+          $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
       }
       else {
           $content = include_template('error.php', ['error' => mysqli_error($link)]);
@@ -45,15 +49,15 @@ else {
 }
 
 $content = include_template('main.php', [
-  'lot' => $lot,
-  'category' => $category
+  'lots' => $lots,
+  'cateories' => $cateories
 ]);
 
 $layout_content = include_template('layout.php', [
   'is_auth' => $is_auth,
   'user_name' => $user_name,
   'content' => $content,
-  'category' => $category,
+  'cateories' => $cateories,
   'title' => 'YetiCave - Главная страница'
 ]);
 
