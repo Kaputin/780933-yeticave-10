@@ -12,7 +12,7 @@ if (!$link) {
     $error = mysqli_connect_error();
     $content = include_template('error.php', ['error' => $error]);
 }
-  else {
+else {
     mysqli_set_charset($link, "utf8");
 }
 
@@ -47,10 +47,10 @@ else {
     if ($result) {
           // получаем все новые лоты в виде двумерного массива
           $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
-      }
-      else {
+    }
+    else {
           $content = include_template('error.php', ['error' => mysqli_error($link)]);
-      }
+    }
 }
 
 $content = include_template('main.php', [
